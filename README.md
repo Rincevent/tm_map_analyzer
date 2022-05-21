@@ -1,16 +1,7 @@
-# tm_map_analyzer
-An analyzer of inherent quality in the Terra Mystica boardgame maps
+# web tm_map_analyzer
+A fork of tm_map_analyzer to directly analyze the file from a web client
 
-Usage:
-`python3 map_analyzer.py map_file [skewed]`
-
-Analyzes a map using different metrics according to the paper "Map Generation and Balance in the Terra Mystica Board Game Using Particle Swarm and Local Search", published in https://link.springer.com/chapter/10.1007/978-3-030-53956-6_15
-
-I also created my own metric, f5, which indicates peninsular/island hexes (0 or 1 land neighboring hexes).
-
-The default program expects a map using the base map alignment, where even rows (starting from row 0) have 1 additional hex.
-To invert that, call the command with an additional "skewed" parameter, which will invert the expected map (i.e., odd rows have an additional hex).
-
+--------------------
 The file example_map picks a bad map by Dave (yes, you have been a bad boy, Dave) to show its format:
 
 <span style="font-family:Mono; font-size:4em;">
