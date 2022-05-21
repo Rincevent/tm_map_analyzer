@@ -1,0 +1,64 @@
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brython@3.10.5/brython.min.js">
+    </script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brython@3.10.5/brython_stdlib.js">
+    </script>
+</head>
+
+<body onload="brython()">
+
+<p>Load a map file: <input type="file" id="custom_map_file_selector"></p>
+<p><button id="map_process">Process</button></p>
+<span id="map_content" hidden></span>
+<script type="text/python">
+from browser import window, document, html
+import map_analysis
+
+
+def output(obj):
+    document <= html.P(str(obj))
+
+def filePicked(ev):
+    def onload(event):
+        document["map_content"].text = event.target.result
+
+    file = ev.target.files[0]
+    reader = window.FileReader.new()
+    reader.bind("load", onload)
+    reader.readAsText(file)
+
+def fileProcess(ev):
+    document <= html.P("-------------------------------")
+    document <= html.P("Processing " + str(document["custom_map_file_selector"].files[0].name) + "...")
+    map = document["map_content"].text.splitlines()
+    skewed = len(map[0]) < len(map[1])
+    tm_map = map_analysis.read_map(map, skewed)
+    document <= html.H2("f1 analysis")
+    document <= html.P(str(map_analysis.f1(tm_map)) + " infractions")
+    document <= html.H2("f2 analysis")
+    document <= html.P(str(map_analysis.f2(tm_map)) + " infractions")
+    document <= html.H2("f3 analysis")
+    document <= html.P(str(map_analysis.f3(tm_map)) + " disjoint rivers")
+    document <= html.H2("f4 analysis")
+    document <= html.P(str(map_analysis.f4(tm_map)) + " infractions")
+    document <= html.H2("f5 analysis")
+    document <= html.P(str(map_analysis.f5(tm_map)) + " isolated peninsulas")
+    document <= html.H2("normalized centrality")
+    map_analysis.f6(tm_map)
+    document <= html.H2("normalized neighborhood")
+    map_analysis.f7(tm_map)
+
+document["custom_map_file_selector"].bind("change", filePicked)
+document["map_process"].bind("click", fileProcess)
+map_analysis.output = output
+</script>
+
+</body>
+
+</html>

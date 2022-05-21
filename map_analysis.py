@@ -1,12 +1,20 @@
 import sys
 
-# a map is a tuple of matrix and a dict with neighbor info
-def read_map(inputfile,alignment):
+def read_file(inputfile):
 	f = open(inputfile, "r")
-	mat = []
-	for line in f:
-		mat.append(line.splitlines()[0].split(','))
+	lines = f.readlines()
 	f.close()
+	return lines
+
+def output(obj):
+	print(obj)
+
+# a map is a tuple of matrix and a dict with neighbor info
+def read_map(lines,alignment):
+	mat = []
+	for line in lines:
+		mat.append(line.splitlines()[0].split(','))
+
 	lencmp = 0
 	if len(mat[0]) == len(mat[1]):
 		lencmp = 0
@@ -63,7 +71,7 @@ def f1(tm_map):
 					pr.append(0)
 			else:
 				pr.append(0)
-		print(pr)
+		output(pr)
 	return tot
 
 def f2(tm_map):
@@ -85,7 +93,7 @@ def f2(tm_map):
 					pr.append(0)
 			else:
 				pr.append(0)
-		print(pr)
+		output(pr)
 	return tot
 
 def f3(tm_map):
@@ -108,7 +116,7 @@ def f3(tm_map):
 				break
 		if found == False:
 			return tot
-		print("starting new disjoint river with hex " + str(initr) + "," + str(initc))
+		output("starting new disjoint river with hex " + str(initr) + "," + str(initc))
 		S = [(initr,initc)] #initialize stack
 		visited.append((initr,initc))
 		while S != []:
@@ -158,9 +166,9 @@ def f4(tm_map):
 					pr.append(0)
 			else:
 				pr.append(0)
-		print(pr)
-	print("per color infractions")
-	print(counts)
+		output(pr)
+	output("per color infractions")
+	output(counts)
 	return tot
 
 def f5(tm_map): #peninsula
@@ -182,7 +190,7 @@ def f5(tm_map): #peninsula
 					pr.append(0)
 			else:
 				pr.append(0)
-		print(pr)
+		output(pr)
 	return tot
 
 def f6(tm_map): #centrality
@@ -213,9 +221,9 @@ def f6(tm_map): #centrality
 			dists[mat[row][col]] += h + v
 			counts[mat[row][col]] += 1
 	for k in counts:
-		print(k + ": " + str(dists[k]/counts[k]))
-	print("raw centrality")
-	print(dists)
+		output(k + ": " + str(dists[k]/counts[k]))
+	output("raw centrality")
+	output(dists)
 
 def f7(tm_map): #neighborhood
 	mat = tm_map[0]
@@ -245,9 +253,9 @@ def f7(tm_map): #neighborhood
 					dists[mat[row][col]] += 1
 			counts[mat[row][col]] += 1
 	for k in counts:
-		print(k + ": " + str(dists[k]/counts[k]))
-	print("raw neighborhood")
-	print(dists)
+		output(k + ": " + str(dists[k]/counts[k]))
+	output("raw neighborhood")
+	output(dists)
 
 
 
@@ -261,7 +269,7 @@ if __name__ == '__main__':
 			print("we only accept 'skewed' as a parameter so far...")
 			sys.exit()
 
-	tm_map = read_map(infile,a)
+	tm_map = read_map(read_file(infile),a)
 	print("f1 analysis")
 	print(str(f1(tm_map)) + " infractions")
 	print("f2 analysis")
